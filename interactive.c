@@ -57,12 +57,19 @@
 //========================= Interactive mode ===============================
 
 
+// Clamp so "%5d "/"%5dH" fits in strFl[7] (-9999..99999).
 static int convert_altitude(int ft)
 {
+    int alt;
     if (Modes.metric)
-        return (ft / 3.2828);
+        alt = (ft / 3.2828);
     else
-        return ft;
+        alt = ft;
+    if (alt > 99999)
+        alt = 99999;
+    else if (alt < -9999)
+        alt = -9999;
+    return alt;
 }
 
 static int convert_speed(int kts)
